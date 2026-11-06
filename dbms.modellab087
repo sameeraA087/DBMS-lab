@@ -1,0 +1,144 @@
+SQL> CREATE TABLE COLLEGE(
+  2  COLLEGE_ID NUMBER(10) PRIMARY KEY,
+  3  COLLEGE_NAME VARCHAR2(10)
+  4  );
+
+Table created.
+
+SQL> CREATE TABLE STUDENT (
+  2  STUDENT_ID NUMBER(10) PRIMARY KEY,
+  3  STUDENT_NAME VARCHAR2(20) NOT NULL,
+  4  EMAIL VARCHAR2(20) UNIQUE,
+  5  CGPA NUMBER(3,2) CHECK (CGPA >= 0 AND CGPA <= 10),
+  6  COLLEGE_ID NUMBER,
+  7  FOREIGN KEY (COLLEGE_ID) REFERENCES COLLEGE(COLLEGE_ID)
+  8  );
+
+Table created.
+
+SQL> DESC STUDENT
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUDENT_ID                                NOT NULL NUMBER(10)
+ STUDENT_NAME                              NOT NULL VARCHAR2(20)
+ EMAIL                                              VARCHAR2(20)
+ CGPA                                               NUMBER(3,2)
+ COLLEGE_ID                                         NUMBER
+
+SQL> INSERT INTO COLLEGE VALUES(1,'SCSVMV');
+
+1 row created.
+
+SQL> INSERT INTO COLLEGE VALUES(2,'SVCE');
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES(1,'RAMA','ram@gmail.com',8,1);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES(2,'SITA','sita@gmail.com',9,2);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES(3,'ARUNA','arun@gmail.com',3,1);
+
+1 row created.
+
+SQL> SELECT * FROM STUDENT;
+
+STUDENT_ID STUDENT_NAME         EMAIL                      CGPA COLLEGE_ID
+---------- -------------------- -------------------- ---------- ----------
+         1 RAM                  rama@gmail.com                 8          1
+         2 SITA                 sita@gmail.com                9          2
+         3 ARUN                 aruna@gmail.com                3          1
+
+
+SQL> INSERT INTO STUDENT VALUES(1,'SAMEERA','sameera@gmail.com',1,2);
+INSERT INTO STUDENT VALUES(1,'SAMEERA','sameera@gmail.com',1,2)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A087.SYS_C0035938) violated
+
+SQL> INSERT INTO STUDENT VALUES(4,'RAVI','ravi@gmail.com',4,1);
+
+1 row created.
+
+SQL> INSERT INTO COLLEGE VALUES(4,'SRM');
+
+1 row created.
+
+SQL> SELECT * FROM COLLEGE;
+
+COLLEGE_ID COLLEGE_NA
+---------- ----------
+         1 SCSVMV
+         2 SVCE
+         4 SRM
+
+SQL> CREATE TABLE COURSE(
+  2  COURSE_ID NUMBER PRIMARY KEY,
+  3  COURSE_NAMW VARCHAR2(10),
+  4  ;
+
+SQL> CREATE TABLE COURSES(
+  2  COURSE_ID NUMBER PRIMARY KEY,
+  3  COURSE_NAME VARCHAR2(10),
+  4  CREDITS NUMBER(10),
+  5  SEMESTER NUMBER(1),
+  6  FACULTY VARCHAR2(10)
+  7  );
+
+Table created.
+
+SQL> INSERT INTO COURSES VALUES(1,'CSE','3','5','DR.KUMAR');
+
+1 row created.
+
+SQL> INSERT INTO COURSES VALUES(2,'ECE','4','5','DR.REENA');
+
+1 row created.
+
+SQL> INSERT INTO COURSES VALUES(3,'IT','5','5','DR.MEENA');
+
+1 row created.
+
+SQL> INSERT INTO COURSES VALUES(4,'CSE','2','5','DR.KEERTHI');
+
+1 row created.
+
+SQL> DESC COURSES;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ COURSE_ID                                 NOT NULL NUMBER
+ COURSE_NAME                                        VARCHAR2(10)
+ CREDITS                                            NUMBER(10)
+ SEMESTER                                           NUMBER(1)
+ FACULTY                                            VARCHAR2(10)
+
+SQL> SELECT COURSE_NAME, FACULTY FROM COURSES;
+
+COURSE_NAM FACULTY
+---------- ----------
+CSE        DR.KUMAR
+ECE        DR.REENA
+IT         DR.MEENA
+CSE        DR.KEERTHI
+
+SQL> SELECT * FROM COURSES WHERE SEMESTER = 3;
+
+no rows selected
+
+SQL> SELECT * FROM COURSES WHERE CREDITS>3;
+
+ COURSE_ID COURSE_NAM    CREDITS   SEMESTER FACULTY
+---------- ---------- ---------- ---------- ----------
+         2 ECE                 4          5 DR.REENA
+         3 IT                  5          5 DR.MEENA
+
+
+SQL> SELECT * FROM COURSES WHERE FACULTY LIKE 'DR.KUMAR';
+
+ COURSE_ID COURSE_NAM    CREDITS   SEMESTER FACULTY
+---------- ---------- ---------- ---------- ----------
+         1 CSE                 3          5 DR.KUMAR
